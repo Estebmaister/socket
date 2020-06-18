@@ -25,7 +25,7 @@ module.exports = (app, db) => {
 	});
 
 	app.route('/chat').get(ensureAuthenticated, (req, res) => {
-		console.log(req.session);
+		// console.log(req.session);
 		res.render(process.cwd() + '/views/pug/chat', { user: req.user });
 	});
 
