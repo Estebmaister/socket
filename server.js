@@ -14,10 +14,13 @@ const http = require('http').Server(app);
 const sessionStore = new session.MemoryStore();
 const io = require('socket.io')(http);
 const config = require('./app/config.js');
+const passportSocketIo = require('passport.socketio');
 
+const cors = require('cors'); //For FCC testing purposes
+app.use(cors()); //For FCC testing purposes
 fccTesting(app); //For FCC testing purposes
 
-app.use('/public', express.static(process.cwd() + '/public'));
+app.use('/', express.static(process.cwd() + '/public'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -36,6 +39,7 @@ const client = new mongoClient(config.MONGO_URI, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 });
+
 client.connect((err) => {
 	if (err) console.log('Database error: ' + err);
 	const db = client.db('test');
@@ -50,8 +54,28 @@ client.connect((err) => {
 	});
 
 	//start socket.io code
+	io.use(
+		passportSocketIo.authorize({
+			cookieParser: cookieParser,
+			key: 'express.sid',
+			secret: process.env.SESSION_SECRET,
+			store: sessionStore,
+		})
+	);
+
+	let currentUsers = 0;
+
 	io.on('connection', (socket) => {
-		console.log('A user has connected');
+		++currentUsers;
+		console.log('user ' + socket.request.user.name + ' connected');
+		io.emit('user count', currentUsers);
+
+		socket.on('disconnect', () => {
+			console.log('user ' + socket.request.user.name + ' disconnected');
+			--currentUsers;
+			io.emit('user count', currentUsers);
+		});
 	});
+
 	//end socket.io code
 });
