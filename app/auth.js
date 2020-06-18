@@ -4,7 +4,7 @@ const passport = require('passport');
 const GitHubStrategy = require('passport-github').Strategy;
 const config = require('./config.js');
 
-module.exports = function (app, db) {
+module.exports = (app, db) => {
 	app.use(passport.initialize());
 	app.use(passport.session());
 
@@ -18,6 +18,14 @@ module.exports = function (app, db) {
 		});
 	});
 
+	const tryInsert = (field, defaultValue) => {
+		try {
+			return profile[field][0].value;
+		} catch (error) {
+			return defaultValue;
+		}
+	};
+
 	passport.use(
 		new GitHubStrategy(
 			{
@@ -25,30 +33,27 @@ module.exports = function (app, db) {
 				clientSecret: config.GITHUB_CLIENT_SECRET,
 				callbackURL: config.GITHUB_CALLBACK_URL,
 			},
-			function (accessToken, refreshToken, profile, cb) {
-				db.collection('chatusers').findAndModify(
+			(accessToken, refreshToken, profile, cb) => {
+				db.collection('chatusers').findOneAndUpdate(
 					{ id: profile.id },
-					{},
 					{
 						$setOnInsert: {
 							id: profile.id,
 							name: profile.displayName || 'Anonymous',
-							photo: profile.photos[0].value || '',
-							email: profile.emails[0].value || 'No public email',
+							email: tryInsert(('photos', '')),
+							email: tryInsert(('email', 'No public email')),
 							created_on: new Date(),
 							provider: profile.provider || '',
 							chat_messages: 0,
 						},
-						$set: {
-							last_login: new Date(),
-						},
-						$inc: {
-							login_count: 1,
-						},
+						$set: { last_login: new Date() },
+						$inc: { login_count: 1 },
 					},
 					{ upsert: true, new: true }, //Insert object if not found, Return new object after modify
-					(err, doc) => {
-						return cb(null, doc.value);
+					(err, user) => {
+						if (err) return done(err);
+						console.log('Db log operation success');
+						return cb(null, user.value);
 					}
 				);
 			}
