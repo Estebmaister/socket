@@ -76,6 +76,11 @@ client.connect((err) => {
 			connected: true,
 		});
 
+		socket.on('chat message', (message) => {
+			console.log('Message send it');
+			io.emit('chat message', { name: socket.request.user.name, message });
+		});
+
 		socket.on('disconnect', () => {
 			console.log('user ' + socket.request.user.name + ' disconnected');
 			--currentUsers;
