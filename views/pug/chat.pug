@@ -7,16 +7,22 @@ html
     link(rel='stylesheet', href='/css/style.css')
     link(rel='stylesheet', href='/style.css')
   body
-    h1.border.center FCC Advanced Node and Express
-    h2.center Socket.IO Chat Room
-    .chat.center
+    h1 FCC Advanced Node and Express
+    h2 Socket.IO Chat Room
+    .chat
       p#num-users
       .chat-box
         ul#messages
-        form(action='')
-          input#m(autocomplete='off')
-          button Send
-      a#logout(href='/logout') Logout  
+        //- No action or method on purpose
+        form#chat-form(action='')
+          input#message-input(autocomplete='off')
+          button.btn.btn--primary Send
+      a#logout(href='/logout') Logout
+
+    //- JS
+    //- Requiring JQuery library
     script(src='https://code.jquery.com/jquery-2.2.1.min.js', integrity='sha256-gvQgAFzTH6trSrAWoH1iPo9Xc96QxSZ3feW6kem+O00=', crossorigin='anonymous')
+    //- Requiring socket.io library
     script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js')
+    //- Requiring socket.io local client
     script(src='/client.js')
