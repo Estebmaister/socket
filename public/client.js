@@ -1,8 +1,6 @@
 $(document).ready(() => {
 	const socket = io();
 
-	socket.on('user count', (data) => console.log(data));
-
 	socket.on('user', (data) => {
 		$('#num-users').text(data.currentUsers + ' users online');
 		let message = data.name;
@@ -13,6 +11,8 @@ $(document).ready(() => {
 		}
 		$('#messages').append($('<li>').html('<b>' + message + '</b>'));
 	});
+
+	socket.on('user count', (data) => console.log(data));
 
 	socket.on('chat message', (data) => {
 		$('#num-users').text(data.currentUsers + ' users online');

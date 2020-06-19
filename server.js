@@ -69,12 +69,13 @@ client.connect((err) => {
 		++currentUsers;
 		console.log('user ' + socket.request.user.name + ' connected');
 
-		io.emit('user count', currentUsers);
 		io.emit('user', {
 			name: socket.request.user.name,
 			currentUsers,
 			connected: true,
 		});
+
+		io.emit('user count', currentUsers);
 
 		socket.on('chat message', (message) => {
 			console.log('Message send it');
