@@ -1,15 +1,15 @@
 html
   head
-    title FCC Advanced Node and Express
+    title Chat, please login
     meta(name='description', content='Home page')
     include includes/head.pug
     link(rel="shortcut icon", href="./img/noauth.ico", type="image/x-icon")
     link(rel='stylesheet', type="text/css", href='./css/style.css')
     //- link(rel='stylesheet', href='/style.css')
   body
-    h1.border.center FCC Advanced Node and Express
-    h2.center Socket.IO Chat Rooom
-    .login.center
+    h1 Node server with passport auth
+    h2 Socket.IO Chat Rooom
+    .login
       a(href='/auth/github') Login with Github!
     include includes/footer.pug
     include includes/littleCat.pug

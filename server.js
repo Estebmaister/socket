@@ -3,9 +3,6 @@
 const express = require('express');
 const session = require('express-session');
 const bodyParser = require('body-parser');
-const fccTesting = require('./freeCodeCamp/fcctesting.js');
-const auth = require('./app/auth.js');
-const routes = require('./app/routes.js');
 const mongoClient = require('mongodb').MongoClient;
 const passport = require('passport');
 const cookieParser = require('cookie-parser');
@@ -13,12 +10,11 @@ const app = express();
 const http = require('http').Server(app);
 const sessionStore = new session.MemoryStore();
 const io = require('socket.io')(http);
-const config = require('./app/config.js');
 const passportSocketIo = require('passport.socketio');
 
-const cors = require('cors'); //For FCC testing purposes
-app.use(cors()); //For FCC testing purposes
-fccTesting(app); //For FCC testing purposes
+const routes = require('./app/routes.js');
+const auth = require('./app/auth.js');
+const config = require('./app/config.js');
 
 app.use('/', express.static(process.cwd() + '/public'));
 app.use(cookieParser());

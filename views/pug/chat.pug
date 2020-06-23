@@ -1,13 +1,13 @@
 html
   head
-    title FCC Advanced Node and Express
+    title Chat homepage
     meta(name='description', content='Home page')
     include includes/head.pug
     link(rel="shortcut icon", href="./img/auth.ico", type="image/x-icon")
     link(rel='stylesheet', href='/css/style.css')
     link(rel='stylesheet', href='/css/chat.css')
   body
-    h1 FCC Advanced Node and Express
+    h1 Node server with passport auth
     h2 Socket.IO Chat Room
     .chat
       p#num-users
@@ -25,4 +25,4 @@ html
     //- Requiring socket.io library
     script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.min.js')
     //- Requiring socket.io local client
-    script(src='/client.js')
+    script(src='/js/client.js')

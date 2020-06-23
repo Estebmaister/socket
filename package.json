@@ -1,26 +1,26 @@
 {
-	"name": "socket-io-for-nodejs",
+	"name": "socket-io-nodejs",
 	"author": "http://github.com/estebmaister",
-	"version": "0.0.1",
-	"description": "An application with socket io in NodeJS",
+	"version": "1.0.1",
+	"description": "A server chat with socket.io in NodeJS",
 	"main": "server.js",
 	"scripts": {
-		"start": "node server.js"
+		"start": "node server.js",
+		"test": "echo 'no tests configured'"
 	},
 	"dependencies": {
 		"body-parser": "^1.19.0",
 		"cookie-parser": "^1.4.5",
-		"cors": "^2.8.5",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"express-session": "^1.17.1",
+		"pug": "^3.0.0",
 		"helmet": "^3.23.0",
 		"mongodb": "^3.5.9",
 		"passport": "^0.4.1",
 		"passport-github": "^1.1.0",
 		"passport-local": "^1.0.0",
 		"passport.socketio": "*",
-		"pug": "^3.0.0",
 		"socket.io": "^2.3.0"
 	},
 	"engines": {
