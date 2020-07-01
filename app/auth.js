@@ -1,14 +1,23 @@
 const session = require('express-session');
-const mongo = require('mongodb').MongoClient;
 const passport = require('passport');
 const GitHubStrategy = require('passport-github').Strategy;
 const config = require('./config.js');
 
-module.exports = (app, db) => {
+module.exports = (app, sessionStore, db) => {
+	app.use(
+		session({
+			secret: config.SESSION_SECRET,
+			resave: true,
+			saveUninitialized: true,
+			key: 'express.sid',
+			store: sessionStore,
+		})
+	);
 	app.use(passport.initialize());
 	app.use(passport.session());
 
 	passport.serializeUser((user, done) => {
+		console.log('serializing ' + user.id);
 		done(null, user.id);
 	});
 
@@ -18,9 +27,9 @@ module.exports = (app, db) => {
 		});
 	});
 
-	const tryInsert = (field, defaultValue) => {
+	const tryInsert = (profileData, field, defaultValue) => {
 		try {
-			return profile[field][0].value;
+			return profileData[field][0].value;
 		} catch (error) {
 			return defaultValue;
 		}
@@ -33,15 +42,16 @@ module.exports = (app, db) => {
 				clientSecret: config.GITHUB_CLIENT_SECRET,
 				callbackURL: config.GITHUB_CALLBACK_URL,
 			},
-			(accessToken, refreshToken, profile, cb) => {
+			(accessToken, refreshToken, profile, done) => {
 				db.collection('chatusers').findOneAndUpdate(
 					{ id: profile.id },
 					{
 						$setOnInsert: {
 							id: profile.id,
+							username: profile.username,
 							name: profile.displayName || 'Anonymous',
-							email: tryInsert(('photos', '')),
-							email: tryInsert(('email', 'No public email')),
+							photo: profile.photos[0].value || '',
+							email: tryInsert(profile, 'emails', 'No public email'),
 							created_on: new Date(),
 							provider: profile.provider || '',
 							chat_messages: 0,
@@ -53,7 +63,7 @@ module.exports = (app, db) => {
 					(err, user) => {
 						if (err) return done(err);
 						console.log('Db log operation success');
-						return cb(null, user.value);
+						return done(null, user.value);
 					}
 				);
 			}

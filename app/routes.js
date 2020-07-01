@@ -2,9 +2,7 @@ const passport = require('passport');
 
 module.exports = (app, db) => {
 	const ensureAuthenticated = (req, res, next) => {
-		if (req.isAuthenticated()) {
-			return next();
-		}
+		if (req.isAuthenticated()) return next();
 		res.redirect('/');
 	};
 
@@ -25,7 +23,6 @@ module.exports = (app, db) => {
 	});
 
 	app.route('/chat').get(ensureAuthenticated, (req, res) => {
-		// console.log(req.session);
 		res.render(process.cwd() + '/views/pug/chat', { user: req.user });
 	});
 
