@@ -59,7 +59,7 @@ module.exports = (app, sessionStore, db) => {
 						$set: { last_login: new Date() },
 						$inc: { login_count: 1 },
 					},
-					{ upsert: true, new: true }, //Insert object if not found, Return new object after modify
+					{ upsert: true, returnOriginal: false }, //Insert object if not found, Return new object after modify
 					(err, user) => {
 						if (err) return done(err);
 						console.log('Db log operation success');
