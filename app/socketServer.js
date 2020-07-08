@@ -30,6 +30,10 @@ module.exports = (http, sessionStore) => {
 		socket.on('chat message', (message) => {
 			console.log('Message send it');
 			io.emit('chat message', { name: socket.request.user.name, message });
+			// socket.broadcast.emit('chat message', {
+			// 	username: socket.request.user.name,
+			// 	message: message,
+			// });
 		});
 
 		socket.on('disconnect', () => {
