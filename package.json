@@ -14,7 +14,7 @@
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"express-session": "^1.17.1",
-		"pug": "^3.0.0",
+		"pug": "^3.0.1",
 		"helmet": "^3.23.0",
 		"mongodb": "^3.5.9",
 		"passport": "^0.4.1",
