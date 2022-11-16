@@ -17,7 +17,7 @@
 		"pug": "^3.0.1",
 		"helmet": "^3.23.0",
 		"mongodb": "^3.5.9",
-		"passport": "^0.4.1",
+		"passport": "^0.6.0",
 		"passport-github": "^1.1.0",
 		"passport-local": "^1.0.0",
 		"passport.socketio": "*",
