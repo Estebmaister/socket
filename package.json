@@ -9,10 +9,10 @@
 		"test": "echo 'no tests configured'"
 	},
 	"dependencies": {
-		"body-parser": "^1.20.3",
+		"body-parser": "^1.20.4",
 		"cookie-parser": "^1.4.7",
 		"dotenv": "^8.2.0",
-		"express": "^4.21.2",
+		"express": "^4.22.1",
 		"express-session": "^1.18.1",
 		"pug": "^3.0.3",
 		"helmet": "^3.23.0",
