@@ -13,7 +13,7 @@
 		"cookie-parser": "^1.4.7",
 		"dotenv": "^8.2.0",
 		"express": "^4.22.1",
-		"express-session": "^1.18.1",
+		"express-session": "^1.18.2",
 		"pug": "^3.0.3",
 		"helmet": "^3.23.0",
 		"mongodb": "^3.7.4",
